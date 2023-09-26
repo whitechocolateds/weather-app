@@ -71,10 +71,15 @@ export default {
   
   methods: {
     getWeather() {
-      axios(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${this.city}?key=GZD47XKNVYNRAVV2P9PVE5GGZ`).then(data => this.parseData(data)
-      
+      axios(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${this.city}?key=GZD47XKNVYNRAVV2P9PVE5GGZ`).then(data => this.parseData(data)     
         
-      )
+      ).catch(error => {
+    if (error.response && error.response.status === 400) {      
+      alert("Place can not be find, try again");
+    } else {     
+      console.error('An error occurred:', error.message);
+    }
+  })
     },
     parseData(data) {
       
@@ -85,12 +90,14 @@ export default {
       this.icon = data.data.currentConditions.icon
       this.days = data.data.days
       this.imageSrc = require(`@/assets/${this.icon}.png`)
-       console.log(data)
+      
+      
     },
     getCelzius(para) {
       const celzius = Math.round((para - 32) * 5 / 9)
        return celzius
     }
+    
     
   } 
 }
