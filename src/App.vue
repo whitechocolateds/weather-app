@@ -79,6 +79,7 @@ export default {
     } else {     
       console.error('An error occurred:', error.message);
     }
+    
   })
     },
     parseData(data) {
